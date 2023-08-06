@@ -1,33 +1,20 @@
 import Head from "next/head";
 import { Inter } from "next/font/google";
+import { useState } from "react";
+
 import styles from "@/styles/Home.module.css";
+
 import { generateGrid } from "./grid-generator";
 import GridCell from "./cell";
-import { useState } from "react";
+import { COLOR_TIMEOUT_MS, GRID_SIZE } from "./config";
+import { checkGridForSequence } from "./grid-checker";
+import { Cell, CellColor } from "./types";
 
 const inter = Inter({ subsets: ["latin"] });
 
-enum CellColor {
-  White = "#ffffff",
-  Yellow = "#fafa33",
-  Green = "#50c878",
-}
-
-interface Cell {
-  value: number;
-  color: string;
-}
-
-const gridSize = {
-  width: 50,
-  height: 50,
-};
-
-const colorTimeoutMs = 10;
-
 export default function Home() {
   const [grid, setGrid] = useState(
-    generateGrid<Cell>(gridSize.width, gridSize.height, {
+    generateGrid<Cell>(GRID_SIZE.width, GRID_SIZE.height, {
       value: 0,
       color: CellColor.White,
     })
@@ -35,8 +22,9 @@ export default function Home() {
 
   function handleCellClick(rowIndex: number, columIndex: number) {
     incrementRowAndColumn(grid, rowIndex, columIndex);
+    checkGridForSequence(grid);
 
-    resetColorsAfter(colorTimeoutMs);
+    resetColorsAfter(COLOR_TIMEOUT_MS);
 
     // TIL React also does not like mutation
     setGrid([...grid.map((row) => row.map((cell) => ({ ...cell })))]);
@@ -47,18 +35,24 @@ export default function Home() {
     rowIndex: number,
     columIndex: number
   ): void {
-    for (let i = 0; i < gridSize.height; i++) {
-      const targetCell = grid[i][columIndex];
-      grid[i][columIndex] = {
+    for (let i = 0; i < GRID_SIZE.height; i++) {
+      const row = grid[i];
+      if (row === undefined) continue;
+      const targetCell = row[columIndex];
+      if (targetCell == undefined) continue;
+      row[columIndex] = {
         value: targetCell.value + 1,
         color: CellColor.Yellow,
       };
     }
-    for (let j = 0; j < gridSize.width; j++) {
-      const targetCell = grid[rowIndex][j];
+
+    for (let j = 0; j < GRID_SIZE.width; j++) {
+      const column = grid[rowIndex];
+      if (column === undefined) continue;
+      const targetCell = column[j];
       const isCentralCell = j === columIndex;
-      if (isCentralCell) continue;
-      grid[rowIndex][j] = {
+      if (isCentralCell || targetCell == undefined) continue;
+      column[j] = {
         value: targetCell.value + 1,
         color: CellColor.Yellow,
       };

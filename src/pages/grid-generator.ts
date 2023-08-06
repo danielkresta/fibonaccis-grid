@@ -3,7 +3,7 @@ export function generateGrid<T>(
   height: number,
   initialValue: T
 ): T[][] {
-  return Array.from(Array(width), () =>
-    Array.from(Array(height).fill(initialValue))
+  return Array.from(Array(height), () =>
+    Array.from(Array(width).fill(initialValue))
   );
 }
