@@ -1,0 +1,21 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.grid-row {
+  display: flex;
+}
+
+.grid-cell {
+  padding: 0px 4px;
+  width: 21px;
+  height: 21px;
+  border: 1px solid lightgray;
+  text-align: center;
+
+  cursor: pointer;
+}
