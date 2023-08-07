@@ -4,11 +4,11 @@ import { useState } from "react";
 
 import styles from "@/styles/Home.module.css";
 
-import { generateGrid } from "./grid-generator";
+import { generateGrid } from "../implementation/grid-generator";
 import GridCell from "./cell";
-import { COLOR_TIMEOUT_MS, GRID_SIZE } from "./config";
-import { checkGridForSequence } from "./grid-checker";
-import { Cell, CellColor } from "./types";
+import { COLOR_TIMEOUT_MS, GRID_SIZE } from "../implementation/config";
+import { checkGridForSequence } from "../implementation/grid-checker";
+import { Cell, CellColor } from "../implementation/types";
 
 const inter = Inter({ subsets: ["latin"] });
 
