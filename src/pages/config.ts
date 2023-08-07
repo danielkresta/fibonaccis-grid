@@ -1,6 +1,6 @@
 export const GRID_SIZE = {
   width: 50,
-  height: 10,
+  height: 50,
 };
 
 export const COLOR_TIMEOUT_MS = 10;

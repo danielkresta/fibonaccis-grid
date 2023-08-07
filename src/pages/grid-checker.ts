@@ -18,21 +18,27 @@ export function checkGridForSequence(grid: Cell[][]) {
 
     for (let colIndex = 0; colIndex < GRID_SIZE.width; colIndex++) {
       const startingCell = row[colIndex];
-      const sequenceStartIndex = fibonacciSequence.findIndex(
-        (value) => value === startingCell?.value
-      );
-      if (sequenceStartIndex === -1 || startingCell === undefined) continue;
+      const sequenceStartIndices = fibonacciSequence
+        .map((value, index) => ({ value, index }))
+        .filter(({ value }) => value === startingCell?.value)
+        .map(({ index }) => index);
 
-      Object.values(SearchDirection).forEach((direction) => {
-        checkForSequenceInDirection(
-          direction,
-          grid,
-          sequenceStartIndex,
-          startingCell,
-          rowIndex,
-          colIndex
-        );
-      });
+      if (sequenceStartIndices.length === 0 || startingCell === undefined)
+        continue;
+
+      // sequenceStartIndices is an array to tackle the double ones in the Fibonacci sequence
+      for (const sequenceStartIndex of sequenceStartIndices) {
+        Object.values(SearchDirection).forEach((direction) => {
+          checkForSequenceInDirection(
+            direction,
+            grid,
+            sequenceStartIndex,
+            startingCell,
+            rowIndex,
+            colIndex
+          );
+        });
+      }
     }
   }
 }
