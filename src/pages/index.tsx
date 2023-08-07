@@ -71,7 +71,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Create Next App</title>
+        <title>Fibonacci&lsquo;s grid</title>
         <meta name="description" content="Fibonacci's grid" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
